@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Игра</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="roguelite автобаттлер">
+    <meta name="keywords" content="игра, RPG, фэнтези">
+	<link rel="stylesheet" href="style.css"></head>
+<body>
+    <div class="test-buttons">
+            <input type="checkbox" checked="true" id="statistics-left-item-header-checkbox" title="on/off item stat header"></input>
+            <input type="checkbox" id="statistics-left-item-base-stats-checkbox" title="on/off item base stat info"></input>
+            <input type="checkbox" checked="true" id="statistics-left-item-modified-stats-checkbox" title="on/off item modified stat info"></input>
+            <input type="checkbox" checked= "true" id="statistics-left-item-effects-checkbox" title="on/off item effects info"></input>
+            <button id="test-generate-inventory-image" title="test-generate-inventory-image">invent</button>
+            <button id="test-generate-pl-equip-image">pl equip</button>
+            <button id="test-generate-pl-skills-image">pl skills</button>
+            <button id="test-generate-central-image">central</button>
+            <button id="test-generate-button-image">buttons</button>
+            <button id="test-generate-body-image">body</button>
+            <button id="test-generate-stat-slot-equipment-image">stat equip slot</button>
+            <button id="test-generate-stat-slot-skills-image">stat skills slot</button>
+            <button id="test-generate-card-image">card</button>
+            <button id="test-generate-trash-bin-image">bin</button>
+    </div>
+    
+    <div class="overlay"></div>
+    
+    <div class="statistics-left">        
+        <div class="statistics-left-content-container">
+        </div>
+        
+        <div class="statistics-left-buttons-container">
+            <button id="statistics-left-result-player-stats-button" title="Result player stats">🧬</button>
+            <button id="statistics-left-player-equipment-button" title="Player equipped items and skills stats">🥼</button>
+            <button id="statistics-left-enemy-equipment-button" title="Non-player items and skills stats">📡</button>
+            <button id="statistics-left-result-enemy-stats-button" title="Result enemy stats">🔬</button>
+            <button id="statistics-left-player-inventory-button" title="Player inventory item stats">💼</button>
+            <button id="statistics-left-game-log-button" title="Game log">📝</button>
+    	</div>
+
+    </div>
+    
+    <div id="central-game-field" class="game">
+        <div class="round-stage-info">
+            <span id="round-info"></span>
+            <span id="stage-info"></span>
+        </div>
+        <div class ="game-body">
+            <div class="body-equipment">
+                <div class="body-stats-and-equipment-left">
+                    <div class="player-character-bars">
+                        <div class="player-income-effects">
+                            <div class="player-income-freeze">
+                                <span class="noto-color-emoji-regular">❄️</span>
+                                <span class="freeze-digit">0</span>
+                            </div>
+                            <div class="player-income-burn">
+                                <span class="noto-color-emoji-regular">🔥</span>
+                                <span class="burn-digit">0</span>
+                            </div>
+                            <div class="player-income-poison">
+                                <span class="noto-color-emoji-regular">☠️</span>
+                                <span class="poison-digit">0</span>
+                            </div>               
+                        </div>
+                        <div class="player-health-bar">
+                            <div class="player-health-fill"></div>
+                            <span class="player-health-text"></span>
+                        </div>
+                        <div class="player-shield-bar">
+                            <div class="player-shield-fill"></div>
+                            <span class="player-shield-text"></span>
+                        </div>
+                    </div>
+                    <div class="body-equipment-left">
+
+                        <div class="body-skills">
+
+                        </div>
+                    </div>
+                        
+                </div>
+
+                <div class="body-stats-and-equipment-right">
+                    <div class="enemy-character-bars">
+                        <div class="enemy-income-effects">
+                            <div class="enemy-income-poison">
+                                <span class="noto-color-emoji-regular">☠️</span>
+                                <span class="poison-digit">0</span>
+                            </div>
+                            <div class="enemy-income-burn">
+                                <span class="noto-color-emoji-regular">🔥</span>
+                                <span class="burn-digit">0</span>
+                            </div>
+                            <div class="enemy-income-freeze">
+                                <span class="noto-color-emoji-regular">❄️</span>
+                                <span class="freeze-digit">0</span>
+                            </div>  
+                        </div>
+                        <div class="enemy-health-bar">
+                            <div class="enemy-health-fill"></div>
+                            <span class="enemy-health-text"></span>
+                        </div>
+                        <div class="enemy-shield-bar">
+                            <div class="enemy-shield-fill"></div>
+                            <span class="enemy-shield-text"></span>
+                        </div>
+                    </div>
+                    <div class="body-equipment-right">
+                        <div class="body-enemy-skills">
+
+                        </div> 
+                    </div>
+                </div>	
+            </div>
+            <div class="game-main-buttons-container">
+                <div class="retreat-resume-buttons-container">
+                    <button id="retreat-button">Retreat</button> 
+                    <button id="resume-button">Attack</button>
+                </div>
+                <button id="resolve-loot-button">Resolve loot and get choice</button>
+                <button id="finish-choice-button">Finish choice</button>
+            </div>
+            <div class="body-inventory-and-skills">
+                <div class="body-inventory">
+
+                </div>
+                <div class="trash-bin">
+                    <span>🚽</span>
+                </div>
+            </div>
+        </div>
+        <div class="last-log-message">
+        </div>
+		</div>
+    <div class="statistics-right">
+        
+        <div class="statistics-right-buttons-container">
+            <button id="statistics-right-result-player-stats-button" title="Result player stats">🧬</button>
+            <button id="statistics-right-player-equipment-button" title="Player equipped items and skills stats">🥼</button>
+            <button id="statistics-right-enemy-equipment-button" title="Non-player items and skills stats">📡</button>
+            <button id="statistics-right-result-enemy-stats-button" title="Result enemy stats">🔬</button>
+            <button id="statistics-right-player-inventory-button" title="Player inventory item stats">💼</button>
+            <button id="statistics-right-game-log-button" title="Game log">📝</button>   
+        </div>
+        
+        <div class="statistics-right-content-container">
+        </div>
+    </div>
+    </div>
+        <script type="module" src="main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>window.__ENV__ = 'development'</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
