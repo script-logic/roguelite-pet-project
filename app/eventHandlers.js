@@ -228,22 +228,6 @@ const buttonConfig = [
 });
 
 
-document.querySelector('#statistics-left-item-header-checkbox').addEventListener('click', () => {
-    document.querySelector('.statistics-left-buttons-container .active-button')?.click();
-    document.querySelector('.statistics-right-buttons-container .active-button')?.click();
-});
-
-document.querySelector('#statistics-left-item-base-stats-checkbox').addEventListener('click', () => {
-    document.querySelector('.statistics-left-buttons-container .active-button')?.click();
-    document.querySelector('.statistics-right-buttons-container .active-button')?.click();
-});
-
-document.querySelector('#statistics-left-item-modified-stats-checkbox').addEventListener('click', () => {
-    document.querySelector('.statistics-left-buttons-container .active-button')?.click();
-    document.querySelector('.statistics-right-buttons-container .active-button')?.click();
-});
-
-
 document.addEventListener('mousedown', function (event) {
     if (event.button === 1 && !event.target.classList.contains('battle-log-message')) {
         gameState.settings.thingTooltipFlag = !gameState.settings.thingTooltipFlag;

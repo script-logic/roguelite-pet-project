@@ -3,6 +3,7 @@
 import { Inventory, Equipment, Skills } from './slots.js';
 import { gameState } from './main.js';
 import { logger } from './logger.js';
+import { gameEvents } from './events.js';
 
 class Creature {
     constructor(gameState) {
