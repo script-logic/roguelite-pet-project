@@ -2,8 +2,8 @@
 
 ## 🎮 Game Start
 
-https://script-logic.github.io/roguelite-pet-project/
-Keep an eye on the tips at the bottom of the screen while playing.
+*   https://script-logic.github.io/roguelite-pet-project/
+*   Keep an eye on the tips at the bottom of the screen while playing.
 ---
 
 ## 🎯 Gameplay Loop
