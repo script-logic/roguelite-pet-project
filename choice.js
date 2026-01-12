@@ -3,6 +3,7 @@ import { CONSTANTS } from './constants.js';
 import { Item, Skill } from './thing.js';
 import { logger } from './logger.js';
 import { setupDragAndDrop } from './dragAndDrop.js';
+import { gameEvents } from './events.js';
 
 
 async function createAndAddItem(container, index, type) {
@@ -18,7 +19,7 @@ async function createAndAddItem(container, index, type) {
                 logger.error(`Error handling ${type}:`, error);
             }
             return null;
-            
+
         case 'skill':
             try {
                 const skill = new Skill(`skill ${Math.random() * 10 | 0}`);
@@ -30,7 +31,7 @@ async function createAndAddItem(container, index, type) {
                 logger.error(`Error handling ${type}:`, error);
             }
             return null;
-            
+
         default:
             return;
     }
@@ -38,7 +39,7 @@ async function createAndAddItem(container, index, type) {
 
 
 export async function generateChoice() {
-    try {    
+    try {
         logger.debug('Choice generation started');
         gameEvents.emit('choiceGenerationStarted');
 
@@ -61,8 +62,8 @@ export async function generateChoice() {
         for (let i = 0; i < CONSTANTS.CHOICE_CONTAINER_SIZE; i++) {
             const skill = await createAndAddItem(gameState.newSkills, i, 'skill');
             const thing = await createAndAddItem(gameState.newThings, i, 'item');
-        newSkills.push(skill);
-        newThings.push(thing);
+            newSkills.push(skill);
+            newThings.push(thing);
         }
 
 
@@ -75,10 +76,10 @@ export async function generateChoice() {
 
         const createSlotGrid = (type) => {
             const slotGrid = gameState.renderer.renderGrid(
-                `new-${type}s`, 
+                `new-${type}s`,
                 'player-choice-container',
-                CONSTANTS.CHOICE_ROWS, 
-                CONSTANTS.CHOICE_COLS, 
+                CONSTANTS.CHOICE_ROWS,
+                CONSTANTS.CHOICE_COLS,
                 `new-${type}s`
             );
             slotGrid.style.marginBottom = type === 'skills' ? '3px' : '';
@@ -89,7 +90,7 @@ export async function generateChoice() {
         choiceContainer.appendChild(createTitle('or 1 new item', 'new-things-title'));
         choiceContainer.appendChild(createSlotGrid('thing'));
 
-        
+
 
         document.querySelector('.body-equipment-right').appendChild(choiceContainer);
 
@@ -99,9 +100,9 @@ export async function generateChoice() {
             items: newThings
         });
         document.querySelector('.statistics-right-buttons-container .active-button')?.click();
-        
-        
-    }  catch (error) {
+
+
+    } catch (error) {
         logger.error('Failed to generate choice:', error);
     }
 }

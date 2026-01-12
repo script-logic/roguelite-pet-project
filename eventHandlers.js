@@ -3,7 +3,7 @@ import { gameState } from './main.js';
 import { gameEvents } from './events.js';
 import { CONSTANTS } from './constants.js';
 import { logger } from './logger.js';
-import { handleDrop, handleDragOver} from './dragAndDrop.js';
+import { handleDrop, handleDragOver } from './dragAndDrop.js';
 
 
 export const eventHandlersOn = {
@@ -15,7 +15,7 @@ export const eventHandlersOn = {
         gameEvents.emit(`newStage_${gameState.currentStage}`, resolveChoice);
     },
 
-    newStage_choice: (resolveChoice = false) => {                             
+    newStage_choice: (resolveChoice = false) => {
         const checkboxModified = document.querySelector('#statistics-left-item-modified-stats-checkbox');
         if (checkboxModified.checked === false) {
             checkboxModified.click();
@@ -31,7 +31,7 @@ export const eventHandlersOn = {
             gameEvents.emit('nextStage');
             gameEvents.emit('choiceContainerRemove');
             gameState.update();
-        } else {              
+        } else {
             gameState.renderer.renderLastLogMessage(`Round ${gameState.roundNumber} have started! You can loot 1 any item or skill from choice container.`);
             const buttonFinishChoice = document.querySelector('#finish-choice-button');
             if (buttonFinishChoice) buttonFinishChoice.style.visibility = 'visible';
@@ -52,7 +52,7 @@ export const eventHandlersOn = {
         };
         gameState.renderer.renderLastLogMessage(`The battle have started!`);
         gameState.handleStartBattle();
-        
+
         document.querySelector('#statistics-right-game-log-button')?.click();
         gameState.update();
     },
@@ -101,11 +101,11 @@ export const eventHandlersOn = {
     choiceContainerRemove: () => {
         const buttonResume = document.querySelector('#resume-button');
         const buttonRetreat = document.querySelector('#retreat-button');
-    	if (buttonResume && buttonRetreat) {
-        	buttonResume.style.visibility = 'visible';
+        if (buttonResume && buttonRetreat) {
+            buttonResume.style.visibility = 'visible';
             buttonRetreat.style.visibility = 'visible';
         }
-    
+
     }
 }
 
@@ -151,8 +151,8 @@ const buttonResolveLoot = document.querySelector('#resolve-loot-button');
 
 if (buttonResolveLoot) {
     buttonResolveLoot.addEventListener('click', () => {
-    const resolveChoice = false;
-    gameState.handleEnemyLoot(resolveChoice)    
+        const resolveChoice = false;
+        gameState.handleEnemyLoot(resolveChoice)
     });
 }
 
@@ -169,8 +169,8 @@ if (buttonFinishChoice) {
     });
 }
 
-    
-                              
+
+
 window.addEventListener('resize', () => {
     gameState.update();
 });
@@ -190,7 +190,7 @@ function handleStatisticsClick(side, buttonId, renderFunction) {
     const button = document.querySelector(buttonId);
     if (!button) return;
 
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
         // Обновляем активную кнопку
         if (!this.classList.contains('active-button')) {
             const container = document.querySelector(`.statistics-${side}-content-container`);
@@ -200,7 +200,7 @@ function handleStatisticsClick(side, buttonId, renderFunction) {
             document.querySelectorAll(`.statistics-${side}-buttons-container .active-button`)
                 .forEach(btn => btn.classList.remove('active-button'));
             this.classList.add('active-button');
-        } 
+        }
         // Вызываем соответствующий метод рендера
         gameState.renderer[renderFunction](side);
     });
@@ -244,18 +244,18 @@ document.querySelector('#statistics-left-item-modified-stats-checkbox').addEvent
 });
 
 
-document.addEventListener('mousedown', function(event) {
+document.addEventListener('mousedown', function (event) {
     if (event.button === 1 && !event.target.classList.contains('battle-log-message')) {
         gameState.settings.thingTooltipFlag = !gameState.settings.thingTooltipFlag;
         gameEvents.emit('settingsChange', 'thingTooltipFlag', gameState.settings.thingTooltipFlag);
-        
+
         // Добавляем или удаляем класс для всего документа
         if (!gameState.settings.thingTooltipFlag) {
             document.body.classList.add('tooltips-disabled');
         } else {
             document.body.classList.remove('tooltips-disabled');
         }
-        
+
         logger.warn('gameState.settings', gameState.settings);
     }
 });
@@ -267,65 +267,65 @@ let mouseDownTime = 0;
 function addClickHandlers(selector, leftButtonSelector, rightButtonSelector) {
     const element = document.querySelector(selector);
     element.title = `LMB / RMB for open this container in left / right panel`;
-    
+
     // Обработчик клика
     element?.addEventListener('mousedown', (e) => {
         mouseDownTime = Date.now();
     });
-    
+
     element?.addEventListener('mouseup', (e) => {
         const clickDuration = Date.now() - mouseDownTime;
         if (clickDuration < CONSTANTS.MAX_CLICK_DURATION && e.srcElement?.localName !== 'button') {
-            const targetSelector = e.button === 0 
+            const targetSelector = e.button === 0
                 ? leftButtonSelector  // Левая кнопка мыши
-                : e.button === 2 
+                : e.button === 2
                     ? rightButtonSelector  // Правая кнопка мыши
                     : null;
-            
+
             if (targetSelector) {
                 document.querySelector(targetSelector)?.click();
             }
         }
     });
-    
+
     // Предотвращаем появление контекстного меню
     element?.addEventListener('contextmenu', (e) => e.preventDefault());
 }
 
 // Добавляем обработчики для всех нужных элементов
 addClickHandlers(
-    '.body-inventory', 
-    '#statistics-left-player-inventory-button', 
+    '.body-inventory',
+    '#statistics-left-player-inventory-button',
     '#statistics-right-player-inventory-button'
 );
 
 addClickHandlers(
-    '.body-equipment-right', 
-    '#statistics-left-enemy-equipment-button', 
+    '.body-equipment-right',
+    '#statistics-left-enemy-equipment-button',
     '#statistics-right-enemy-equipment-button'
 );
 
 addClickHandlers(
-    '.body-equipment-left', 
-    '#statistics-left-player-equipment-button', 
+    '.body-equipment-left',
+    '#statistics-left-player-equipment-button',
     '#statistics-right-player-equipment-button'
 );
 
 addClickHandlers(
-    '.last-log-message', 
-    '#statistics-left-game-log-button', 
+    '.last-log-message',
+    '#statistics-left-game-log-button',
     '#statistics-right-game-log-button'
 );
 
 addClickHandlers(
-    '.player-character-bars', 
-    '#statistics-left-result-player-stats-button', 
+    '.player-character-bars',
+    '#statistics-left-result-player-stats-button',
     '#statistics-right-result-player-stats-button'
 );
 
 addClickHandlers(
-    '.enemy-character-bars', 
-    '#statistics-left-result-enemy-stats-button', 
+    '.enemy-character-bars',
+    '#statistics-left-result-enemy-stats-button',
     '#statistics-right-result-enemy-stats-button'
 );
 

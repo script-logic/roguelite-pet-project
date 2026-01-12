@@ -14,12 +14,12 @@ export const getContainer = (source) => ({
     'player-skills-stats-right': gameState.player.inventory,
     'player-equipment-stats-right': gameState.player.equipment,
     'player-skills-stats-left': gameState.player.inventory,
-    'enemy-equipment': ( gameState.currentStage === 'choice' ? gameState.newThings : ( gameState.enemy ? gameState.enemy.equipment : null )),
-    'enemy-skills': ( gameState.currentStage === 'choice' ? gameState.newSkills : ( gameState.enemy ? gameState.enemy.skills : null )),
-    'enemy-equipment-stats-left': ( gameState.enemy ? gameState.enemy.equipment : null ),
-    'enemy-skills-stats-left': ( gameState.enemy ? gameState.enemy.skills : null ),
-    'enemy-equipment-stats-right': ( gameState.enemy ? gameState.enemy.equipment : null ),
-    'enemy-skills-stats-right': ( gameState.enemy ? gameState.enemy.skills : null ),
+    'enemy-equipment': (gameState.currentStage === 'choice' ? gameState.newThings : (gameState.enemy ? gameState.enemy.equipment : null)),
+    'enemy-skills': (gameState.currentStage === 'choice' ? gameState.newSkills : (gameState.enemy ? gameState.enemy.skills : null)),
+    'enemy-equipment-stats-left': (gameState.enemy ? gameState.enemy.equipment : null),
+    'enemy-skills-stats-left': (gameState.enemy ? gameState.enemy.skills : null),
+    'enemy-equipment-stats-right': (gameState.enemy ? gameState.enemy.equipment : null),
+    'enemy-skills-stats-right': (gameState.enemy ? gameState.enemy.skills : null),
     'player-skills': gameState.player.skills
 })[source];
 
@@ -50,42 +50,42 @@ export function handleDrop(e) {
         const sourceContainer = getContainer(source);
         gameState.renderer.trashBin(source, sourceContainer, sourceId);
     }
-    
+
     const slot = e.target.closest('td');
-    
-	const targetId = slot ? parseInt(slot.id.replace('-stats', '').replace('-left', '').replace('-right','').split('-')[2]) : null;
+
+    const targetId = slot ? parseInt(slot.id.replace('-stats', '').replace('-left', '').replace('-right', '').split('-')[2]) : null;
     const sourceContainer = getContainer(source);
     const sourceItem = sourceContainer.get(sourceId);
     if (sourceItem) {
         gameState.renderer.highlightSlot(slot, sourceItem.tier);
     } else {
-    
+
         gameState.renderer.highlightSlot(false, false, true);
     }
-    if (!sourceItem) return;    
-    
-    if (gameState.currentStage === 'battle' || (gameState.currentStage !== 'loot' && (source === 'enemy-equipment' || source === 'enemy-skills'))) return;  
+    if (!sourceItem) return;
+
+    if (gameState.currentStage === 'battle' || (gameState.currentStage !== 'loot' && (source === 'enemy-equipment' || source === 'enemy-skills'))) return;
     const targetContainer = getTargetContainer(slot.id, sourceItem);
-    
+
     if (targetContainer) {
-        logger.warn('sourceItem',sourceItem);
+        logger.warn('sourceItem', sourceItem);
         const targetItem = targetContainer.get(targetId);
         const mainCategoryIndex = CONSTANTS.ITEM_INDICES.MAIN_CATEGORY;
         //Проверка на имеющийся предмет такого же типа
-        if (targetContainer === gameState.player.equipment && 
-            CONSTANTS.JUST_ONE_THING_WEAR.includes(sourceItem.type[mainCategoryIndex]) && 
-            !(sourceContainer === targetContainer) && 
+        if (targetContainer === gameState.player.equipment &&
+            CONSTANTS.JUST_ONE_THING_WEAR.includes(sourceItem.type[mainCategoryIndex]) &&
+            !(sourceContainer === targetContainer) &&
             Object.keys(gameState.player.equippedItemTags).includes(sourceItem.type[mainCategoryIndex]) &&
             !(targetItem && targetItem.type[mainCategoryIndex] === sourceItem.type[mainCategoryIndex])) {
-            	gameState.renderer.renderLastLogMessage(`<span style="color: crimson">You can't wear more ${sourceItem.type[mainCategoryIndex].replace('upperBodyEquipment', 'chest armor').replace('bottomBodyEquipment', 'leg armor')} else</span>`);
-            	return;
+            gameState.renderer.renderLastLogMessage(`<span style="color: crimson">You can't wear more ${sourceItem.type[mainCategoryIndex].replace('upperBodyEquipment', 'chest armor').replace('bottomBodyEquipment', 'leg armor')} else</span>`);
+            return;
         }
         // Если это тот же контейнер или перемещение между инвентарем и эквипом
-        if (sourceContainer === targetContainer || 
-           (source === 'player-equipment' && targetContainer === gameState.player.inventory) ||
-           (source === 'player-inventory' && targetContainer === gameState.player.equipment)) {
+        if (sourceContainer === targetContainer ||
+            (source === 'player-equipment' && targetContainer === gameState.player.inventory) ||
+            (source === 'player-inventory' && targetContainer === gameState.player.equipment)) {
             const targetItem = targetContainer.get(targetId);
-            
+
             // Если в целевом слоте есть предмет
             if (targetItem) {
                 const itemSwap = true;
@@ -102,16 +102,16 @@ export function handleDrop(e) {
                 targetItem.place = containerType;
 
                 // Emit события для обоих предметов
-               gameEvents.emit('itemMoved', {
-                   item: sourceItem,
-                   sourceId,
-                   targetId,
-                   source,
-                   target: slot.id.split('-').slice(0, 2).join('-'),
-                   targetContainer: slot,
-                   itemSwap,
-               });
-                
+                gameEvents.emit('itemMoved', {
+                    item: sourceItem,
+                    sourceId,
+                    targetId,
+                    source,
+                    target: slot.id.split('-').slice(0, 2).join('-'),
+                    targetContainer: slot,
+                    itemSwap,
+                });
+
                 gameEvents.emit('itemMoved', {
                     item: targetItem,
                     sourceId: targetId,
@@ -125,22 +125,22 @@ export function handleDrop(e) {
                 return;
             }
         }
-        
+
         // Если это НЕ тот же контейнер или перемещение между чойсом/врагом и эквипом
         if (sourceContainer !== targetContainer &&
-           targetContainer === gameState.player.equipment) {
+            targetContainer === gameState.player.equipment) {
             const targetItem = targetContainer.get(targetId);
-            
+
             // Если в целевом слоте есть предмет
             if (targetItem) {
-                
+
                 //ищем пустой слот (индекс) в ивентаре
                 const firstEmptySlotIndex = gameState.player.inventory.slots.findIndex(slot => slot === null);
                 if (firstEmptySlotIndex === -1) {
-                  	gameState.renderer.renderLastLogMessage('There is no empty slots in inventory for this operation');  
+                    gameState.renderer.renderLastLogMessage('There is no empty slots in inventory for this operation');
                     return;
                 }
-				const itemSwap = true;
+                const itemSwap = true;
                 // Меняем места предметов
                 sourceContainer.remove(sourceId);
                 targetContainer.remove(targetId);
@@ -154,16 +154,16 @@ export function handleDrop(e) {
                 targetItem.place = 'inventory';
 
                 // Emit события для обоих предметов
-               gameEvents.emit('itemMoved', {
-                   item: sourceItem,
-                   sourceId,
-                   targetId,
-                   source,
-                   target: slot.id.split('-').slice(0, 2).join('-'),
-                   targetContainer: slot,
-                   itemSwap,
-               });
-                
+                gameEvents.emit('itemMoved', {
+                    item: sourceItem,
+                    sourceId,
+                    targetId,
+                    source,
+                    target: slot.id.split('-').slice(0, 2).join('-'),
+                    targetContainer: slot,
+                    itemSwap,
+                });
+
                 gameEvents.emit('itemMoved', {
                     item: targetItem,
                     sourceId: targetId,
@@ -177,11 +177,11 @@ export function handleDrop(e) {
                 return;
             }
         }
-        
+
         // Стандартное поведение для разных контейнеров или пустого слота
         if (targetContainer.add(sourceItem, targetId)) {
             sourceContainer.remove(sourceId);
-            
+
             gameEvents.emit('itemMoved', {
                 item: sourceItem,
                 sourceId,
@@ -204,7 +204,7 @@ export function setupDragAndDrop(itemContainer, slotId, source) {
     // Удаляем существующие обработчики перед добавлением новых
     const oldListeners = itemContainer._dragDropListeners;
     if (oldListeners) {
-        oldListeners.forEach(({event, handler}) => {
+        oldListeners.forEach(({ event, handler }) => {
             itemContainer.removeEventListener(event, handler);
         });
     }
@@ -242,14 +242,14 @@ export function setupDragAndDrop(itemContainer, slotId, source) {
         const dropTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
         if (dropTarget && dropTarget.closest('.trash-bin')) {
             handleDrop({
-                preventDefault: () => {},
+                preventDefault: () => { },
                 dataTransfer: { getData: () => data },
                 target: dropTarget
             });
         }
         if (dropTarget && [...dropTarget.classList].some(className => className.includes('slot'))) {
             handleDrop({
-                preventDefault: () => {},
+                preventDefault: () => { },
                 dataTransfer: { getData: () => data },
                 target: dropTarget
             });
@@ -260,50 +260,50 @@ export function setupDragAndDrop(itemContainer, slotId, source) {
 
     const handleDragStart = (e) => {
         e.dataTransfer.setData('text/plain', createTransferData());
-        logger.warn('e.target',e.target);
+        logger.warn('e.target', e.target);
         e.target.closest('.container').classList.add('dragging');
     };
-    
 
-const handleMouseOver = (e) => {
-    
-    const slot = e.target.closest('td');
-    if (!slot || !slot.lastChild) return;
-    
-    // Получаем информацию о предмете
-    const slotId = parseInt(slot.id.replace('-stats', '').replace('-left', '').replace('-right','').split('-')[2]);
-    const containerType = slot.id.split('-').slice(0, 2).join('-');
-    const container = getContainer(containerType);
-    if (!container) return;
-    
-    const item = container.get(slotId);
-    const isItemSkill = item.skill;
-    const itemTier = isItemSkill ? item.tier : item.type[0];
-    gameState.renderer.highlightSlot(slot, itemTier);
-    if (!item || (!item.effects && !item.skill)) return;
-    
-    // Удаляем предыдущие подсветки
-    gameState.renderer.clearAllBonusHighlights();
-    
-    // Подсветка бонусов, даваемых данным предметом другим предметам
-    eventManager.addHandler('gameState.renderer.highlightSourceBonuses', gameState.renderer.highlightSourceBonuses(item, containerType, slotId));
-    
-    // Подсветка бонусов, получаемых данным предметом от других предметов
-    eventManager.addHandler('gameState.renderer.highlightTargetBonuses', gameState.renderer.highlightTargetBonuses(item, containerType, slotId));
 
-    const handleMouseOut = () => {
+    const handleMouseOver = (e) => {
+
+        const slot = e.target.closest('td');
+        if (!slot || !slot.lastChild) return;
+
+        // Получаем информацию о предмете
+        const slotId = parseInt(slot.id.replace('-stats', '').replace('-left', '').replace('-right', '').split('-')[2]);
+        const containerType = slot.id.split('-').slice(0, 2).join('-');
+        const container = getContainer(containerType);
+        if (!container) return;
+
+        const item = container.get(slotId);
+        const isItemSkill = item.skill;
+        const itemTier = isItemSkill ? item.tier : item.type[0];
+        gameState.renderer.highlightSlot(slot, itemTier);
+        if (!item || (!item.effects && !item.skill)) return;
+
+        // Удаляем предыдущие подсветки
         gameState.renderer.clearAllBonusHighlights();
-        const stopHighlight = true;
-        
-        gameState.renderer.highlightSlot(slot, null, stopHighlight);
-        
-        eventManager.clearHandlers();
-        slot.removeEventListener('mouseout', handleMouseOut);
+
+        // Подсветка бонусов, даваемых данным предметом другим предметам
+        eventManager.addHandler('gameState.renderer.highlightSourceBonuses', gameState.renderer.highlightSourceBonuses(item, containerType, slotId));
+
+        // Подсветка бонусов, получаемых данным предметом от других предметов
+        eventManager.addHandler('gameState.renderer.highlightTargetBonuses', gameState.renderer.highlightTargetBonuses(item, containerType, slotId));
+
+        const handleMouseOut = () => {
+            gameState.renderer.clearAllBonusHighlights();
+            const stopHighlight = true;
+
+            gameState.renderer.highlightSlot(slot, null, stopHighlight);
+
+            eventManager.clearHandlers();
+            slot.removeEventListener('mouseout', handleMouseOut);
+        };
+
+        slot.addEventListener('mouseout', handleMouseOut);
     };
 
-    slot.addEventListener('mouseout', handleMouseOut);
-};
-    
 
     // Сохраняем ссылки на обработчики
     itemContainer._dragDropListeners = [
@@ -315,7 +315,7 @@ const handleMouseOver = (e) => {
     ];
 
     // Добавляем новые обработчики
-    itemContainer._dragDropListeners.forEach(({event, handler}) => {
+    itemContainer._dragDropListeners.forEach(({ event, handler }) => {
         itemContainer.addEventListener(event, handler, event === 'touchstart' ? { passive: false } : undefined);
     });
 

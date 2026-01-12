@@ -18,9 +18,9 @@ export const CONSTANTS = {
         MAIN_CATEGORY: 3,
         SPECIFIC_TYPE: 4,
     },
-    
+
     CHOICE_ROWS: 1,
-	CHOICE_COLS: 3,
+    CHOICE_COLS: 3,
     get CHOICE_CONTAINER_SIZE() {
         return this.CHOICE_ROWS * this.CHOICE_COLS;
     },
@@ -60,14 +60,14 @@ export const CONSTANTS = {
         'gloves',
         'helmet',
         'necklace',
-	],
+    ],
     TEXT_TO_ICON_FUNCTION: (items) => {
         return items.map(item => CONSTANTS.ICON_MAP[item] || item);
     },
     ICON_MAP: {
         // Position icons
         'thisSlot': '⟳',
-        'nearUpperSlot': '⇧', 
+        'nearUpperSlot': '⇧',
         'nearRightSlot': '⇨',
         'nearBottomSlot': '⇩',
         'nearLeftSlot': '⇦',
@@ -107,8 +107,8 @@ export const CONSTANTS = {
 CONSTANTS.JUST_ONE_THING_WEAR_ICONS_SET = new Set(
     CONSTANTS.TEXT_TO_ICON_FUNCTION(CONSTANTS.JUST_ONE_THING_WEAR)
 );
-    
-    
-    
+
+
+
 //🌌🧬🟫🟧💠🌃🌐🏙️🚀☘️🏞️
 

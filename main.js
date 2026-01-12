@@ -8,7 +8,7 @@ import { logger } from './logger.js';
 import { settings } from './settings.js';
 import { generateChoice } from './choice.js';
 import { eventHandlersOn } from './eventHandlers.js';
-import { startBattle} from './battle.js';
+import { startBattle } from './battle.js';
 import { Player, Enemy } from './characters.js';
 import { skillManager } from './skillEffects.js';
 document.documentElement.style.setProperty('--slot-scale', CONSTANTS.SLOT_VH_VW_SCALE);
@@ -46,36 +46,36 @@ export class GameState {
 
     async handleStartPrepare() {
         this.enemy = new Enemy(this);
-        
+
         const itemsToAdd = Math.min(CONSTANTS.START_ITEMS, 9);
         const skillsToAdd = Math.min(CONSTANTS.START_SKILLS, 6);
         const thingsToGenerateFromRound = {
-        	item: itemsToAdd,
+            item: itemsToAdd,
             skill: skillsToAdd,
         };
 
-        for (let i = 0 ; i < this.roundNumber; i++) {
-        	const skillOrItem = ['skill','item'][Math.round(Math.random())];
+        for (let i = 0; i < this.roundNumber; i++) {
+            const skillOrItem = ['skill', 'item'][Math.round(Math.random())];
             thingsToGenerateFromRound[skillOrItem] += 1;
         }
 
-        logger.warn('thingsToGenerateFromRound',thingsToGenerateFromRound);
+        logger.warn('thingsToGenerateFromRound', thingsToGenerateFromRound);
 
         try {
-            for (let i = 0; i < Math.min(thingsToGenerateFromRound.item, 9);  i++) {				
+            for (let i = 0; i < Math.min(thingsToGenerateFromRound.item, 9); i++) {
 
                 const emptySlots = [...this.enemy.equipment.slots.entries()]
-                .filter(([_, slot]) => slot === null)
-                .map(([index]) => index);
+                    .filter(([_, slot]) => slot === null)
+                    .map(([index]) => index);
 
                 if (!emptySlots.length) break;
 
                 const randomSlotId = emptySlots[Math.floor(Math.random() * emptySlots.length)];
                 const isBotItem = true;
                 const excludeTags = Object.keys(this.enemy.equippedItemTags)
-                .filter(tag => CONSTANTS.JUST_ONE_THING_WEAR.includes(tag) && this.enemy.equippedItemTags[tag] > 0);
+                    .filter(tag => CONSTANTS.JUST_ONE_THING_WEAR.includes(tag) && this.enemy.equippedItemTags[tag] > 0);
 
-                logger.warn('excludeTags',excludeTags);
+                logger.warn('excludeTags', excludeTags);
 
                 // Generate and add item
                 const thing = await generateThing(`enemy item slot ${randomSlotId}`, 'item', isBotItem, excludeTags);
@@ -83,12 +83,12 @@ export class GameState {
                 thing.setPlace('enemy-equipment');
                 this.enemy.setEquippedItemTags();
             };
-            
-            for (let i = 0; i < Math.min(thingsToGenerateFromRound.skill, 6);  i++) {				
+
+            for (let i = 0; i < Math.min(thingsToGenerateFromRound.skill, 6); i++) {
 
                 const emptySlots = [...this.enemy.skills.slots.entries()]
-                .filter(([_, slot]) => slot === null)
-                .map(([index]) => index);
+                    .filter(([_, slot]) => slot === null)
+                    .map(([index]) => index);
 
                 if (!emptySlots.length) break;
 
@@ -112,10 +112,10 @@ export class GameState {
             Object.entries(this.enemy.debuffs).forEach(([debuff, value]) => {
                 this.enemy.debuffs[debuff] = 0;
                 gameEvents.emit(`debuffChange`, {
-                    target: this.enemy, 
+                    target: this.enemy,
                     effect: debuff,
                     battleTime: 0
-                	
+
                 });
             });
         } catch (error) {
@@ -154,7 +154,7 @@ export class GameState {
 
         if (source === 'player-inventory' || target === 'player-inventory') {
             recalculateItemStaticModificators(gameState.player, target, itemSwap, targetId);
-        }        
+        }
 
         if (isLootStage && isSourceEnemy) {
             this.handleEnemyLoot();
@@ -183,8 +183,8 @@ export class GameState {
         this.update();
         gameEvents.emit('nextStage', resolveChoice);
     }
-    
-    
+
+
     removeChoiceContainer(source) {
         const choiceContainerElement = document.getElementById('choice-container');
 
@@ -196,7 +196,7 @@ export class GameState {
             gameEvents.emit('nextStage');
         }
     }
-    
+
 
     update() {
         requestAnimationFrame(() => {
@@ -206,8 +206,8 @@ export class GameState {
                 this.renderer.renderEnemy();
             }
         });
-    }    
-    
+    }
+
 
     updateNewContainers() {
         this.newSkills = new ChoiceContainer(CONSTANTS.CHOICE_CONTAINER_SIZE);
@@ -247,7 +247,7 @@ async function generateThing(description, thingType, isBotItem = false, excludeE
             );
             document.body.appendChild(item.container);
             return item;
-            
+
         case 'skill':
             const skill = new Skill(
                 description,
@@ -255,7 +255,7 @@ async function generateThing(description, thingType, isBotItem = false, excludeE
             );
             document.body.appendChild(skill.container);
             return skill;
-            
+
         default:
             return;
     }
@@ -265,7 +265,7 @@ async function generateThing(description, thingType, isBotItem = false, excludeE
 
 async function main() {
 
-    try {        
+    try {
         setTimeout(() => {
             gameState.renderer.setUI('body');
             gameState.renderer.setUI('equipment_stat_slots');
@@ -273,50 +273,59 @@ async function main() {
             gameState.renderer.setUI('trash_bin');
         }, 10);
 
-        gameState.renderer.renderLastLogMessage(`New game started! You have 1 random item in inventory and you can loot 1 any item or skill from choice container. At the start of the game poison and fire most powerful!`);
-        ['poison', 'burn', 'freeze'].forEach(debuff => gameEvents.emit('debuffChange', { 
-            target: gameState.player, 
-            effect: debuff, 
-            battleTime: null, 
+        gameState.renderer.renderLastLogMessage(`New game started! Press F11 to enter fullscreen mode. 
+    Left panel: Detailed stats for your inventory items and skills.
+
+    Center panel (top to bottom): Your active buffs, Health, Shields, Skills, Equipped Items, Backpack.
+
+    Right panel: Menu to select a skill or item.
+
+Make your choice and an enemy will appear. You can attack it or find another foe. Defeating an enemy with rare loot allows you to claim it!
+
+Your goal: Survive as many rounds as you can!`);
+        ['poison', 'burn', 'freeze'].forEach(debuff => gameEvents.emit('debuffChange', {
+            target: gameState.player,
+            effect: debuff,
+            battleTime: null,
         }));
 
         const itemsToAdd = Math.min(CONSTANTS.START_ITEMS, 9);
         const skillsToAdd = Math.min(CONSTANTS.START_SKILLS, 6);
-        
+
         for (let i = 0; i < itemsToAdd; i++) {
 
             const emptySlots = [...gameState.player.equipment.slots.entries()]
-            .filter(([_, slot]) => slot === null)
-            .map(([index]) => index);
+                .filter(([_, slot]) => slot === null)
+                .map(([index]) => index);
 
             if (!emptySlots.length) break;
-            
+
             const randomSlotId = emptySlots[Math.floor(Math.random() * emptySlots.length)];
             const isBotItem = false;
             const excludeTags = Object.keys(gameState.player.equippedItemTags)
-            .filter(tag => CONSTANTS.JUST_ONE_THING_WEAR.includes(tag) && gameState.player.equippedItemTags[tag] > 0);
+                .filter(tag => CONSTANTS.JUST_ONE_THING_WEAR.includes(tag) && gameState.player.equippedItemTags[tag] > 0);
 
             const thing = await generateThing(`player item slot ${randomSlotId}`, 'item', false, excludeTags);
             gameState.player.equipment.add(thing, randomSlotId);
             thing.setPlace('player-equipment');
             gameState.player.setEquippedItemTags();
         };
-            
-            for (let i = 0; i < Math.min(skillsToAdd, 6);  i++) {				
 
-                const emptySlots = [...gameState.player.skills.slots.entries()]
+        for (let i = 0; i < Math.min(skillsToAdd, 6); i++) {
+
+            const emptySlots = [...gameState.player.skills.slots.entries()]
                 .filter(([_, slot]) => slot === null)
                 .map(([index]) => index);
 
-                if (!emptySlots.length) break;
+            if (!emptySlots.length) break;
 
-                const randomSlotId = emptySlots[Math.floor(Math.random() * emptySlots.length)];
-                const isBotItem = false;
-                // Generate and add item
-                const thing = await generateThing(`player skill slot ${randomSlotId}`, 'skill', isBotItem);
-                gameState.player.skills.add(thing, randomSlotId);
-                thing.setPlace('player-skills');
-            };
+            const randomSlotId = emptySlots[Math.floor(Math.random() * emptySlots.length)];
+            const isBotItem = false;
+            // Generate and add item
+            const thing = await generateThing(`player skill slot ${randomSlotId}`, 'skill', isBotItem);
+            gameState.player.skills.add(thing, randomSlotId);
+            thing.setPlace('player-skills');
+        };
 
         recalculateItemStaticModificators(gameState.player, 'player-equipment');
 
@@ -324,11 +333,11 @@ async function main() {
         document.querySelector('#statistics-right-enemy-equipment-button')?.classList.add('active-button');
 
         await generateChoice();
-        
+
         gameState.renderer.updateStats(gameState.player);
         document.querySelector('.statistics-left-buttons-container .active-button')?.click();
         window.skillManager = skillManager;
-        logger.warn('window.skillManager',window.skillManager);
+        logger.warn('window.skillManager', window.skillManager);
         skillManager.processSkills('player');
         gameState.update();
     } catch (error) {
@@ -355,7 +364,7 @@ function recalculateItemStaticModificators(target, itemPlaceTarget, itemSwap = n
             }
         });
     }
-    
+
     if (window.skillManager) {
         window.skillManager.applyItemCategoryEnhancements(target);
     }
@@ -384,41 +393,41 @@ function recalculateItemStaticModificators(target, itemPlaceTarget, itemSwap = n
                     targetItem.staticModificators[targetStat] += effectValue;
 
                     targetItem.battleStats = { ...targetItem.baseStats };
-                    
+
                     Object.entries(targetItem.staticModificators).forEach(([stat, value]) => {
                         if (targetItem.battleStats[stat]) {
                             targetItem.battleStats[stat] += value;
-                            const logMessage = ((itemSlotTarget === sourceIndex || 
-                                                itemSlotTarget === targetIndex) && 
-                                                (effectKey.replace('_Up', '') === stat) ? 
-                                                `<div class="applied-effect-container"><span>+${effectValue} ${CONSTANTS.ICON_MAP[effectKey]} applied to item</span><img src="${targetItem.image.src}" class="log-item-img" title="${targetItem.description} in slot ${targetIndex + 1}"><span> from item </span><img src="${sourceItem.image.src}" class="log-item-img" title="${sourceItem.description} in slot ${sourceIndex + 1}"></div>` 
-                                                : null);
+                            const logMessage = ((itemSlotTarget === sourceIndex ||
+                                itemSlotTarget === targetIndex) &&
+                                (effectKey.replace('_Up', '') === stat) ?
+                                `<div class="applied-effect-container"><span>+${effectValue} ${CONSTANTS.ICON_MAP[effectKey]} applied to item</span><img src="${targetItem.image.src}" class="log-item-img" title="${targetItem.description} in slot ${targetIndex + 1}"><span> from item </span><img src="${sourceItem.image.src}" class="log-item-img" title="${sourceItem.description} in slot ${sourceIndex + 1}"></div>`
+                                : null);
                             if (target.characterType === 'player' && logMessage) bonusStatsLogMessage.push(logMessage);
                         }
                     });
                 }
-                
+
                 targetItem.updateTooltip()
             });
         });
     });
-    
+
     if (window.skillManager) {
         window.skillManager.applyItemSynergies(target);
     }
-    
+
     if (bonusStatsLogMessage.length && (!itemSwap || gameState.itemCountSwapFlag !== 1)) {
         gameState.renderer.renderLastLogMessage(bonusStatsLogMessage.join(''));
         if (itemSwap === 0) gameState.itemCountSwapFlag++;
         if (itemSwap === 1) gameState.itemCountSwapFlag = 0;
-    } else if (target.characterType === 'player' && !itemSwap) {
-        gameState.renderer.renderLastLogMessage('No effect bonuses was applied to another items from this item replacement');
+    } else if ((target.characterType === 'player' && !itemSwap) && (gameState.round)) {
+        gameState.renderer.renderLastLogMessage(`No effect bonuses was applied to another items from this item replacement`);
     }
 }
 
 
 export function shouldApplyEffect(dependenceType, sourceIndex, targetIndex, sourceRow, sourceCol, targetRow, targetCol, sourceItem, targetItem) {
-    switch(dependenceType) {
+    switch (dependenceType) {
         case 'thisSlot':
             return sourceIndex === targetIndex;
 
@@ -462,6 +471,10 @@ export function shouldApplyEffect(dependenceType, sourceIndex, targetIndex, sour
             return targetItem.type && targetItem.type.includes(dependenceType);
     }
 }
+
+
+
+
 
 
 main();

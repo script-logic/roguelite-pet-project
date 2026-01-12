@@ -13,7 +13,7 @@ class EventManager {
         if (!this.handlers.has(eventType)) {
             this.handlers.set(eventType, new Set());
         }
-        
+
         const wrappedHandler = (event) => {
             if (this.throttleTimers.has(eventType)) {
                 // Добавляем в очередь если идет throttling
@@ -66,13 +66,13 @@ class EventEmitter {
         if (!this.events[event]) {
             this.events[event] = [];
         }
-        
+
         if (this.events[event].length >= this.maxListeners) {
             logger.warn(`Max listeners (${this.maxListeners}) exceeded for event: ${event}`);
         }
-            
+
         this.events[event].push(callback);
-        
+
         logger.on(event, callback);
         return () => this.off(event, callback);
     }
@@ -99,7 +99,7 @@ class EventEmitter {
             });
         }
     }
-    
+
     off(event, callback) {
         if (this.events[event]) {
             logger.off(event, callback);

@@ -9,7 +9,7 @@ const testingMultiplier = null; // 5 or null
 export const categoryThingTier = ['trash', 'simple', 'good', 'epic', 'legendary'];
 
 export const categoryWorldEpoch = {
-	world: ['real', 'cyber', 'fantasy'],
+    world: ['real', 'cyber', 'fantasy'],
     epoch: ['ancient', 'medieval', 'modern', 'future'],
 };
 
@@ -24,15 +24,15 @@ export const categoryThingType = {
     helmet: ['light', 'heavy', 'magical'],
     necklace: ['techno', 'magical'],
     ring: ['techno', 'magical'],
-	companion: [ 'human', 'monster', 'pet', 'robot'],
-	property: [ 'building', 'machine', 'terra'],
+    companion: ['human', 'monster', 'pet', 'robot'],
+    property: ['building', 'machine', 'terra'],
 };
 
 export const allTags = ['real', 'cyber', 'fantasy', 'ancient', 'medieval', 'modern', 'future', 'melee', 'ranged', 'magical', 'techno', 'light', 'heavy', 'human', 'monster', 'pet', 'robot', 'building', 'machine', 'terra'];
 Object.keys(categoryThingType).forEach(el => allTags.push(el));
 
 export const baseStats = {
-	baseSpeed: 0,
+    baseSpeed: 0,
     baseShield: 0,
     basePhysAttack: 0,
     basePoison: 0,
@@ -59,17 +59,17 @@ const dependenceVariety = [
     'middleColumn', 
     'rightColumn',   
     'thisSlot', */
-    'nearUpperSlot', 
-    'nearRightSlot', 
+    'nearUpperSlot',
+    'nearRightSlot',
     'nearBottomSlot',
-    'nearLeftSlot', 
+    'nearLeftSlot',
     'thisColumn',
-    'thisRow', 
+    'thisRow',
     'type'
 ];
 
 export const itemEffects = {
-	baseSpeed_Up: dependenceVariety,
+    baseSpeed_Up: dependenceVariety,
     baseShield_Up: dependenceVariety,
     basePhysAttack_Up: dependenceVariety,
     basePoison_Up: dependenceVariety,
@@ -100,7 +100,7 @@ export function generateItem(tierCategories, worldEpochCategories, thingTypeCate
 
             // Total chance for this tier
             const chance = Math.min(baseChance + roundBonus, 95); // Cap at 95% to always leave some randomness
-            logger.warn('chance',chance);
+            logger.warn('chance', chance);
             // Random roll
             const roll = Math.random() * (testingMultiplier ? testingMultiplier : 100);
             logger.warn('roll', roll);
@@ -112,7 +112,7 @@ export function generateItem(tierCategories, worldEpochCategories, thingTypeCate
         // Fallback to trash if nothing else is selected
         return arr[0]; // 'trash'
     };
-    
+
     const getRandomKey = (obj) => {
         const keys = Object.keys(obj);
         return keys[Math.floor(Math.random() * keys.length)];
@@ -126,12 +126,12 @@ export function generateItem(tierCategories, worldEpochCategories, thingTypeCate
         3: '', // mainCategory
         4: '', // specificType
     };
-    
+
     let epochCategory;
-	if (itemType[CONSTANTS.ITEM_INDICES.WORLD] === 'cyber') {
+    if (itemType[CONSTANTS.ITEM_INDICES.WORLD] === 'cyber') {
         epochCategory = getRandomFromArray(worldEpochCategories.epoch.filter(type => type !== 'ancient' && type !== 'medieval'));
     } else {
-    	epochCategory = getRandomFromArray(worldEpochCategories.epoch);
+        epochCategory = getRandomFromArray(worldEpochCategories.epoch);
     }
     let thingTypeCategoriesFiltered;
     if (excludeEquippedItems && excludeEquippedItems.length > 0) {
@@ -140,14 +140,14 @@ export function generateItem(tierCategories, worldEpochCategories, thingTypeCate
     //logger.warn('thingTypeCategoriesFiltered',thingTypeCategoriesFiltered);
     const mainCategory = thingTypeCategoriesFiltered ? getRandomFromArray(thingTypeCategoriesFiltered) : getRandomKey(thingTypeCategories);
     //logger.warn('mainCategory',mainCategory)
-    
+
     let specificType;
     if (itemType[CONSTANTS.ITEM_INDICES.WORLD] === 'real') {
         specificType = getRandomFromArray(thingTypeCategories[mainCategory].filter(type => type !== 'magical'));
     } else {
-    	specificType = getRandomFromArray(thingTypeCategories[mainCategory]);
+        specificType = getRandomFromArray(thingTypeCategories[mainCategory]);
     }
-    
+
     itemType[CONSTANTS.ITEM_INDICES.TIME] = epochCategory;
     itemType[CONSTANTS.ITEM_INDICES.MAIN_CATEGORY] = mainCategory;
     itemType[CONSTANTS.ITEM_INDICES.SPECIFIC_TYPE] = specificType;
@@ -168,19 +168,19 @@ function generateItemStats(itemType, isBotItem = false) {
         baseSpeed: Math.floor(Math.random() * 5) + 5
     };
     const effects = {};
-    
+
     // Получаем индекс тира предмета из categoryThingTier
     const tierIndex = categoryThingTier.indexOf(itemType[0]) + 1;
     const isReal = itemType[1] === 'real';
     const baseStatsNumber = Math.floor(Math.random() * (tierIndex - 1)) + 1;
     const effectsNumber = tierIndex - baseStatsNumber;
-    
+
     // Генерация базовых статов
     if (tierIndex > 0) {
-        const baseStatsKeys = (gameState.roundNumber === 1 && !isBotItem ?  Object.keys(baseStatsFirstRound) : Object.keys(baseStats));
+        const baseStatsKeys = (gameState.roundNumber === 1 && !isBotItem ? Object.keys(baseStatsFirstRound) : Object.keys(baseStats));
         for (let i = 0; i < baseStatsNumber; i++) {
             const randomStatKey = baseStatsKeys[Math.floor(Math.random() * baseStatsKeys.length)];
-            
+
             // Пропускаем magical для real предметов
             if (isReal && randomStatKey === 'baseMagic') {
                 i--;
@@ -207,7 +207,7 @@ function generateItemStats(itemType, isBotItem = false) {
         for (let i = 0; i < effectsNumber; i++) {
             const randomEffectKey = effectKeys[Math.floor(Math.random() * effectKeys.length)];
             let dependency = dependenceVariety[Math.floor(Math.random() * dependenceVariety.length)];
-            
+
             if (dependency === 'type') {
                 const categoryTypes = [
                     ...new Set([

@@ -1,6 +1,3 @@
-
-
-
 /* Font Imports */
 
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Noto+Color+Emoji&family=Noto+Emoji:wght@300..700&display=swap');
@@ -18,22 +15,22 @@
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-	width: 5px;
+    width: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #333;
-	border-radius: 5px;
+    background: #333;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-track {
-	background: #1A1B26;
+    background: #1A1B26;
 }
 
 /* Font Definitions */
 @font-face {
-  font-family: 'Noto Color Emoji';
-  unicode-range: U+1F300-1F5FF, U+1F600-1F64F;
+    font-family: 'Noto Color Emoji';
+    unicode-range: U+1F300-1F5FF, U+1F600-1F64F;
 }
 
 /* Base Styles */
@@ -109,20 +106,53 @@ tr {
     white-space: nowrap;
 }
 
-tr:first-child td:first-child { border-top-left-radius: 10px; }
-tr:first-child td:last-child { border-top-right-radius: 10px; }
-tr:last-child td:first-child { border-bottom-left-radius: 10px; }
-tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+tr:first-child td:first-child {
+    border-top-left-radius: 10px;
+}
 
-.statistics-left tr:first-child td:first-child { border-top-left-radius: 25px; }
-.statistics-left tr:first-child td:last-child { border-top-right-radius: 25px; }
-.statistics-left tr:last-child td:first-child { border-bottom-left-radius: 25px; }
-.statistics-left tr:last-child td:last-child { border-bottom-right-radius: 25px; }
+tr:first-child td:last-child {
+    border-top-right-radius: 10px;
+}
 
-.statistics-right tr:first-child td:first-child { border-top-left-radius: 25px; }
-.statistics-right tr:first-child td:last-child { border-top-right-radius: 25px; }
-.statistics-right tr:last-child td:first-child { border-bottom-left-radius: 25px; }
-.statistics-right tr:last-child td:last-child { border-bottom-right-radius: 25px; }
+tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.statistics-left tr:first-child td:first-child {
+    border-top-left-radius: 25px;
+}
+
+.statistics-left tr:first-child td:last-child {
+    border-top-right-radius: 25px;
+}
+
+.statistics-left tr:last-child td:first-child {
+    border-bottom-left-radius: 25px;
+}
+
+.statistics-left tr:last-child td:last-child {
+    border-bottom-right-radius: 25px;
+}
+
+.statistics-right tr:first-child td:first-child {
+    border-top-left-radius: 25px;
+}
+
+.statistics-right tr:first-child td:last-child {
+    border-top-right-radius: 25px;
+}
+
+.statistics-right tr:last-child td:first-child {
+    border-bottom-left-radius: 25px;
+}
+
+.statistics-right tr:last-child td:last-child {
+    border-bottom-right-radius: 25px;
+}
 
 
 /* Game Layout */
@@ -144,7 +174,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     height: calc((var(--slot-size)) / 2);
 }
 
-.statistics-left, 
+.statistics-left,
 .statistics-right {
     display: flex;
     flex-direction: row;
@@ -153,38 +183,39 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     overflow-y: auto;
 }
 
-.statistics-left-buttons-container, 
+.statistics-left-buttons-container,
 .statistics-right-buttons-container {
     display: none;
 }
 
-.statistics-right-content-container, 
+.statistics-right-content-container,
 .statistics-left-content-container {
     height: 98vh;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;padding: 1vh;
+    align-items: center;
+    padding: 1vh;
 }
 
 
 /* Slots and Containers */
 .container {
-  cursor: pointer;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 2;
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
 }
 
 .container:hover {
-  z-index: 100 !important;
+    z-index: 100 !important;
 }
 
 .container:hover .thing-tooltip {
-  flex-direction: column;    
-  display: flex;
+    flex-direction: column;
+    display: flex;
 }
 
 .tooltips-disabled .thing-tooltip {
@@ -192,16 +223,21 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .container.dragging .thing-tooltip {
-  display: none !important;
+    display: none !important;
 }
 
-.player-inventory-slot, .player-equipment-slot, .player-skills-slot, 
-.enemy-equipment-slot, .enemy-skills-slot, .new-skills-slot, .new-things-slot {
-  position: relative;
-  width: var(--slot-size);
-  height: var(--slot-size);
-  margin: 0;
-  padding: 0;
+.player-inventory-slot,
+.player-equipment-slot,
+.player-skills-slot,
+.enemy-equipment-slot,
+.enemy-skills-slot,
+.new-skills-slot,
+.new-things-slot {
+    position: relative;
+    width: var(--slot-size);
+    height: var(--slot-size);
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -219,7 +255,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .in-tooltip-description {
-	padding-left: 1.5vw;
+    padding-left: 1.5vw;
     text-align: left;
     white-space: pre-wrap;
 }
@@ -239,13 +275,13 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 .thing-tooltip-type,
 .thing-tooltip-stats,
 .thing-tooltip-modificators {
-	align-items: flex-start;
+    align-items: flex-start;
     margin: 1vh;
 }
 
 
 /* Status Bars */
-.player-character-bars, 
+.player-character-bars,
 .enemy-character-bars {
     width: min(calc(var(--slot-scale) * (3vw * var(--game-screen-scale) / 100)), calc(var(--slot-scale) * 3vh));
     border-radius: 5px;
@@ -257,9 +293,9 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     display: none;
 }
 
-.player-health-bar, 
-.player-shield-bar, 
-.enemy-health-bar, 
+.player-health-bar,
+.player-shield-bar,
+.enemy-health-bar,
 .enemy-shield-bar {
     z-index: 20;
     width: 100%;
@@ -272,12 +308,12 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     outline: 2px solid black;
 }
 
-.player-health-bar, 
+.player-health-bar,
 .enemy-health-bar {
     box-shadow: 3px 0px 10px 0px black;
 }
 
-.player-shield-bar, 
+.player-shield-bar,
 .enemy-shield-bar {
     margin-bottom: 10px;
     box-shadow: 0px 3px 10px 0px black;
@@ -297,9 +333,9 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     transition: width 0.3s ease-in-out;
 }
 
-.player-health-text, 
-.player-shield-text, 
-.enemy-health-text, 
+.player-health-text,
+.player-shield-text,
+.enemy-health-text,
 .enemy-shield-text {
     z-index: 40;
     position: absolute;
@@ -316,13 +352,13 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 /* Battle Log */
 .battle-log-message {
-	position: relative;
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
     box-sizing: border-box;
     padding: 5px;
-    background-color: rgb(0, 0, 0 , 0.4);
+    background-color: rgb(0, 0, 0, 0.4);
     width: 100%;
     box-shadow: inset 0 0 20px 1px black;
     border-radius: 10px 0 0 10px;
@@ -355,12 +391,12 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 
 /* Buttons */
-#resume-button, 
-#retreat-button {    
+#resume-button,
+#retreat-button {
     box-shadow: 0 0 10px 1px black;
     background-color: rgb(0, 0, 0, 0.4);
     border-radius: 10px;
-	position: relative;
+    position: relative;
     display: flex;
     flex-direction: column-reverse;
     flex: none;
@@ -372,11 +408,11 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 #resolve-loot-button,
-#finish-choice-button {    
+#finish-choice-button {
     box-shadow: 0 0 10px 1px black;
     background-color: rgb(0, 0, 0, 0.4);
     border-radius: 10px;
-	position: relative;
+    position: relative;
     display: flex;
     flex: none;
     flex-direction: column-reverse;
@@ -384,22 +420,23 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     align-items: center;
     visibility: hidden;
     margin-top: calc(-1 * (var(--slot-size)) / 2);
-    width: calc(var(--game-screen-scale) * 1vw - 4vw);;
+    width: calc(var(--game-screen-scale) * 1vw - 4vw);
+    ;
     height: 100%;
 }
 
 
 /* Hover Effects */
-#player-equipment:hover, 
-#player-inventory:hover, 
+#player-equipment:hover,
+#player-inventory:hover,
 #enemy-equipment:hover,
-#enemy-skills:hover, 
+#enemy-skills:hover,
 #player-skills:hover,
-.player-character-bars:hover, 
+.player-character-bars:hover,
 .enemy-character-bars:hover,
 .last-log-message:hover,
 #choice-container:hover,
-#resume-button:hover, 
+#resume-button:hover,
 #retreat-button:hover,
 #resolve-loot-button:hover,
 #finish-choice-button:hover {
@@ -409,7 +446,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     transition: box-shadow 0.2s;
 }
 
-.player-character-bars:hover, 
+.player-character-bars:hover,
 .enemy-character-bars:hover {
     padding: 5px;
     margin: -5px -5px 5px -5px;
@@ -420,7 +457,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 #battle-charts-container {
     flex: 0.3;
     border-radius: 10px 10px 0 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     background-color: black;
 }
 
@@ -457,36 +494,38 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 
 /* Selection Highlights */
-.selected-slot-white, .selected-slot-lawngreen, 
-.selected-slot-darkblue, .selected-slot-darkviolet, 
+.selected-slot-white,
+.selected-slot-lawngreen,
+.selected-slot-darkblue,
+.selected-slot-darkviolet,
 .selected-slot-darkred {
-  z-index: 5;
-  transition-duration: 0.2s;
+    z-index: 5;
+    transition-duration: 0.2s;
 }
 
 .selected-slot-white {
-  border-color: white;
-  box-shadow: 0px 0px 15px 0px #ffffffd9;
+    border-color: white;
+    box-shadow: 0px 0px 15px 0px #ffffffd9;
 }
 
 .selected-slot-lawngreen {
-  border-color: lawngreen;
-  box-shadow: var(--highlight-shadow);
+    border-color: lawngreen;
+    box-shadow: var(--highlight-shadow);
 }
 
 .selected-slot-darkblue {
-  border-color: darkblue;
-  box-shadow: 0px 0px 8px 1px darkblue;
+    border-color: darkblue;
+    box-shadow: 0px 0px 8px 1px darkblue;
 }
 
 .selected-slot-darkviolet {
-  border-color: darkviolet;
-  box-shadow: 0px 0px 8px 1px darkviolet;
+    border-color: darkviolet;
+    box-shadow: 0px 0px 8px 1px darkviolet;
 }
 
 .selected-slot-darkred {
-  border-color: darkred;
-  box-shadow: 0px 0px 8px 1px darkred;
+    border-color: darkred;
+    box-shadow: 0px 0px 8px 1px darkred;
 }
 
 
@@ -496,14 +535,14 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 /* not sorted */
 .retreat-resume-buttons-container {
-	display: flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     height: 100%;
 }
 
 .applied-effect-container {
-	display: flex;
+    display: flex;
     flex-direction: row;
     justify-content: start;
     flex-wrap: wrap;
@@ -511,20 +550,20 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .noto-color-emoji-regular {
-  font-family: "Noto Color Emoji", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Noto Color Emoji", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .noto-emoji {
-  font-family: "Noto Emoji", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Noto Emoji", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .game-log-and-charts {
-	width: 100%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -585,11 +624,11 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .test-buttons button {
-	background-color: black;
+    background-color: black;
     color: white;
     width: 100%;
     text-align: center;
-    
+
 }
 
 .test-buttons:hover {
@@ -601,21 +640,21 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     content-visibility: visible;
 }
 
-.source-bonus-highlight, 
+.source-bonus-highlight,
 .target-bonus-highlight {
     transition-duration: 0.2s;
     color: #4aff4a;
 }
 
 
-.missing-source-bonus-highlight, 
+.missing-source-bonus-highlight,
 .missing-target-bonus-highlight {
     transition-duration: 0.2s;
     color: #ff3f3f;
 }
 
 .round-stage-info {
-	position: relative;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -626,16 +665,16 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     height: 2vh;
 }
 
-#statistics-right-game-log, 
+#statistics-right-game-log,
 #statistics-left-game-log {
-	position: relative;
+    position: relative;
     display: flex;
     border: 1px solid black;
     border-radius: 5px;
 }
 
 .stat-container {
-	display: flex;
+    display: flex;
     flex-direction: column;
     background-size: 100% 100%;
     background-position: center;
@@ -644,7 +683,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     /*border-radius: 25px;*/
 }
 
-.statistics-left td, 
+.statistics-left td,
 .statistics-right td {
     display: inline-grid;
     height: calc((100 / 5 * 1vh) - 1vh);
@@ -690,7 +729,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     width: calc(var(--statistics-screen-scale) * 0.66vw);
 }
 
-.statistics-player-items, 
+.statistics-player-items,
 .statistics-enemy-items {
     align-items: start;
     text-align-last: justify;
@@ -702,7 +741,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     padding-bottom: 20px;
 }
 
-.statistics-player-skills, 
+.statistics-player-skills,
 .statistics-enemy-skills {
     align-items: start;
     text-align-last: justify;
@@ -759,14 +798,14 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .stat-skill-name {
-	margin-top: 15%;
+    margin-top: 15%;
     white-space: pre-wrap;
     max-width: 80%;
     align-self: center;
 }
 
 .stat-skill-description {
-	white-space: pre-wrap;
+    white-space: pre-wrap;
     max-width: 70%;
     align-self: center;
     height: 75%;
@@ -854,7 +893,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     justify-content: flex-start;
 }
 
-.statistics-left h3, 
+.statistics-left h3,
 .statistics-right h3 {
     font-size: unset;
     margin: 10px;
@@ -863,13 +902,13 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     color: #fff;
 }
 
-.statistics-left h4, 
+.statistics-left h4,
 .statistics-right h4 {
     margin: 5px 0 5px 0;
     color: #aaa;
 }
 
-.statistics-left p, 
+.statistics-left p,
 .statistics-right p {
     padding: 0 5px 0 5px;
     margin: 2px 0;
@@ -883,16 +922,16 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     width: calc(var(--logs-screen-scale) * 1vw);
 }
 
-.body-equipment, 
+.body-equipment,
 .body-inventory-and-skills {
     display: flex;
     justify-content: space-between;
     margin-top: min(calc(var(--slot-scale)* (0.25vw * var(--game-screen-scale) / 100)), calc(var(--slot-scale) * 0.25vh));
 }
 
-.body-inventory, 
-.body-skills, 
-.body-enemy-skills, 
+.body-inventory,
+.body-skills,
+.body-enemy-skills,
 .body-equipment {
     display: flex;
     align-items: start;
@@ -902,7 +941,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     display: contents;
 }
 
-.body-stats-and-equipment-left, 
+.body-stats-and-equipment-left,
 .body-stats-and-equipment-right {
     display: flex;
     flex-direction: column;
@@ -982,8 +1021,8 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     background: linear-gradient(to top, rgba(255, 255, 255, 0) 50%, rgb(255, 255, 255, 0.5) 100%);
 }
 
-#player-equipment, 
-#player-inventory, 
+#player-equipment,
+#player-inventory,
 #enemy-equipment {
     position: relative;
     margin-bottom: min(calc(var(--slot-scale)* (0.25vw * var(--game-screen-scale) / 100)), calc(var(--slot-scale) * 0.25vh));
@@ -995,12 +1034,12 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 #player-inventory {
-	margin-bottom: 2vh;
+    margin-bottom: 2vh;
 }
 
 
 
-#enemy-skills, 
+#enemy-skills,
 #player-skills {
     position: relative;
     margin-bottom: min(calc(var(--slot-scale)* (0.25vw * var(--game-screen-scale) / 100)), calc(var(--slot-scale) * 0.25vh));
@@ -1030,12 +1069,12 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
     margin: calc(7.4vh - 5px) -10px 10px -10px;
 }
 
-.new-skills-slot, 
+.new-skills-slot,
 .new-things-slot {
     background-color: rgba(50, 50, 50, 0.5);
 }
 
-#new-skills, 
+#new-skills,
 #new-things {
     margin-bottom: 10px;
 }
@@ -1049,7 +1088,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 .slot.dragover {
-    background-color: rgba(0,255,0,0.2);
+    background-color: rgba(0, 255, 0, 0.2);
 }
 
 .rotate90 {
@@ -1066,7 +1105,7 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
         flex-wrap: wrap;
     }
 
-    .statistics-left, 
+    .statistics-left,
     .statistics-right {
         display: none;
     }
@@ -1079,14 +1118,14 @@ tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 }
 
 @media (orientation: landscape) {
-    .body-equipment, 
+
+    .body-equipment,
     .body-inventory-and-skills {
         flex-direction: row;
     }
 
-    .statistics-left, 
+    .statistics-left,
     .statistics-right {
         display: flex;
     }
 }
-

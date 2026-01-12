@@ -79,7 +79,7 @@ export function updateChartData(timestamp) {
         'player1PhysicalDamage',
         'player1FatiqueDamage', 'player1MagicalDamage', 'player1PoisonDamage', 'player1FireDamage',
         'player1PhysicalShieldDamage', 'player1FireShieldDamage', 'player1Healing', 'player1Dispel', 'player1AddShield', 'player2PhysicalDamage',
-        'player2FatiqueDamage', 
+        'player2FatiqueDamage',
         'player2MagicalDamage', 'player2PoisonDamage', 'player2FireDamage', 'player2PhysicalShieldDamage',
         'player2FireShieldDamage', 'player2Healing', 'player2Dispel', 'player2AddShield',
     ];
@@ -100,7 +100,7 @@ export function updateChartData(timestamp) {
 
 
 // Отрисовка графика
-export function renderChart (chartType) {
+export function renderChart(chartType) {
     if (!gameState.currentBattle) return;
     const ctx = document.getElementById('battle-chart');
 
@@ -112,7 +112,7 @@ export function renderChart (chartType) {
     // Определяем данные и настройки в зависимости от типа графика
     let chartConfig;
 
-    switch(chartType) {
+    switch (chartType) {
         case 'health':
             chartConfig = {
                 type: 'line',

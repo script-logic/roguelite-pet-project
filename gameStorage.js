@@ -7,7 +7,7 @@ export class GameStorage {
     static load() {
         return JSON.parse(localStorage.getItem('gameState'));
     }
-    
+
     static clear() {
         localStorage.removeItem('gameState');
     }

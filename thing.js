@@ -14,49 +14,49 @@ export class Thing {
         this._tooltipElement.className = 'thing-tooltip';
         this.container = this.createContainer();
         this.height = 0;
-        this.animationStarted = false;  
+        this.animationStarted = false;
         this.description = description;
         this.place = null;
         this.lastTime = performance.now();
         this.currentBattleStats = {};
         this.isBotItem = isBotItem;
     }
-    
+
     get tooltip() {
         this.updateTooltip();
         return this._tooltipElement;
     }
-    
+
     positionTooltip(event) {
-    const tooltip = this._tooltipElement;
-    const rect = tooltip.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    let left = event.clientX + 10; // Default position (10px to the right of cursor)
-    let top = event.clientY + 10;  // Default position (10px below cursor)
-    
-    // Check right edge
-    if (left + rect.width > viewportWidth) {
-        left = event.clientX - rect.width - 10; // Position to the left of cursor
+        const tooltip = this._tooltipElement;
+        const rect = tooltip.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        let left = event.clientX + 10; // Default position (10px to the right of cursor)
+        let top = event.clientY + 10;  // Default position (10px below cursor)
+
+        // Check right edge
+        if (left + rect.width > viewportWidth) {
+            left = event.clientX - rect.width - 10; // Position to the left of cursor
+        }
+
+        // Check bottom edge
+        if (top + rect.height > viewportHeight) {
+            top = viewportHeight - rect.height; // Position above the cursor
+
+        }
+
+        // Ensure we don't go off the left or top edge
+        left = Math.max(0, left);
+        top = Math.max(0, top);
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
     }
-    
-    // Check bottom edge
-    if (top + rect.height > viewportHeight) {
-        top = viewportHeight - rect.height; // Position above the cursor
-        
-    }
-    
-    // Ensure we don't go off the left or top edge
-    left = Math.max(0, left);
-    top = Math.max(0, top);
-    
-    tooltip.style.left = `${left}px`;
-    tooltip.style.top = `${top}px`;
-}
-     
+
     setPlace(place) {
-    	this.place = place;
+        this.place = place;
         this.updateTooltip();
     }
 
@@ -79,34 +79,34 @@ export class Skill extends Thing {
         this.skillName = this.generatedSkill[1];
         this.tier = this.generatedSkill[0];
         //this.type = this.generatedSkill.type;
-        
+
         // Получаем базовые данные скилла
         const skillData = skillsPool[this.skillName];
         if (!skillData) {
             throw new Error(`Skill ${this.skillName} not found in skill pool`);
         }
-        
+
         this.skillType = skillData.skillType;
         this.associatedStats = skillData.associatedStats || [];
-        
+
         // Рассчитываем значения для данного тира
         this.calculatedValues = skillData.calculateValues(this.tier);
-        
+
         // Создаем локализованную информацию
         this.updateLocalizedData();
-        
-        
+
+
         this.updateTooltip();
     }
-    
+
     updateLocalizedData() {
         const currentLocale = gameState.settings.localization;
         //logger.warn('this.skillName',this.skillName);
         //logger.warn('currentLocale',currentLocale);
         const localeData = localization[currentLocale][this.skillName];
-        
+
         this.localizedName = localeData.localizedName;
-        
+
         // Формируем описание с подставленными значениями
         const descParts = localeData.localizedDescriptionParts;
         let description = descParts[0];
@@ -116,15 +116,15 @@ export class Skill extends Thing {
                 description += descParts[i + 1];
             }
         }
-        
+
         this.localizedDescription = description;
     }
-    
+
     // Метод применения скилла (может принимать объект, на который нужно повлиять)
     applyEffect(target) {
         // Логика применения эффекта
     }
-    
+
     updateTooltip() {
         let tooltipContent = `<div class="tooltip-description">${this.localizedDescription}</div>`;
         this._tooltipElement.innerHTML = tooltipContent;
@@ -150,7 +150,7 @@ export class Skill extends Thing {
 
         return container;
     }
-    
+
 }
 
 export class Item extends Thing {
@@ -166,7 +166,7 @@ export class Item extends Thing {
         this.scalingModificators = {};
         this.battleStats = this.mergeStats(this.baseStats, this.staticModificators);
         this.effects = this.generatedItem.effects;
-        
+
         this.updateTooltip();
     }
 
@@ -178,7 +178,7 @@ export class Item extends Thing {
 
         const currentTime = performance.now();
         let deltaTime = (currentTime - this.lastTime) / 1000;
-        deltaTime = Math.min(deltaTime, 1/30);
+        deltaTime = Math.min(deltaTime, 1 / 30);
         this.lastTime = currentTime;
 
         // Apply skill effects to animation speed
@@ -188,12 +188,12 @@ export class Item extends Thing {
         }
 
         // Default freeze slow logic
-        const freezeEffectMultiplier = gameState.currentBattle ? 
-              Math.pow(gameState.currentBattle.freezeSlowMultiplier, 
-                       (this.place.includes('player') ? 
-                        gameState.player.debuffs.freeze : 
-                        gameState.enemy.debuffs.freeze) / 100) : 
-        1.0;
+        const freezeEffectMultiplier = gameState.currentBattle ?
+            Math.pow(gameState.currentBattle.freezeSlowMultiplier,
+                (this.place.includes('player') ?
+                    gameState.player.debuffs.freeze :
+                    gameState.enemy.debuffs.freeze) / 100) :
+            1.0;
 
         const heightChange = (100 / (60 / (this.battleStats.baseSpeed * freezeEffectMultiplier))) * deltaTime * speedMultiplier;
         this.height += heightChange;
@@ -214,7 +214,7 @@ export class Item extends Thing {
         this.overlay.style.height = `${this.height}%`;
         this.animationFrame = requestAnimationFrame(() => this.animate(onAnimationUpdate));
     }
-    
+
     reset() {
         this.height = 0;
         this.overlay.style.height = '0%';
@@ -223,67 +223,67 @@ export class Item extends Thing {
         this.lastTime = performance.now();
         cancelAnimationFrame(this.animationFrame);
     }
-    
+
     setImageUrl(recursiveIndexes = [1, 2, 3]) {
-    const img = this.image;
-    const formattedTagList = this.type.slice(1, this.type.length).join('_');
-    const mainSrc = `./assets/itemsImg/${formattedTagList}.jpg`;
-    const self = this;
+        const img = this.image;
+        const formattedTagList = this.type.slice(1, this.type.length).join('_');
+        const mainSrc = `./assets/itemsImg/${formattedTagList}.jpg`;
+        const self = this;
 
-    return new Promise((resolve, reject) => {
-        // Set error handler before setting src
-        img.onerror = function() {
-            if (recursiveIndexes && recursiveIndexes.length > 0) {
-                const rollIndex = Math.floor(Math.random() * recursiveIndexes.length);
-                const randomIndex = recursiveIndexes[rollIndex];
+        return new Promise((resolve, reject) => {
+            // Set error handler before setting src
+            img.onerror = function () {
+                if (recursiveIndexes && recursiveIndexes.length > 0) {
+                    const rollIndex = Math.floor(Math.random() * recursiveIndexes.length);
+                    const randomIndex = recursiveIndexes[rollIndex];
 
-                // Remove used index from array
-                recursiveIndexes.splice(rollIndex, 1);
+                    // Remove used index from array
+                    recursiveIndexes.splice(rollIndex, 1);
 
-                // Set new source with random index
-                img.src = `./assets/itemsImg/${formattedTagList}(${randomIndex}).jpg`;
+                    // Set new source with random index
+                    img.src = `./assets/itemsImg/${formattedTagList}(${randomIndex}).jpg`;
 
-                // Call recursively with updated indexes but wait for result
-                self.setImageUrl(recursiveIndexes)
-                    .then(resolve)
-                    .catch(reject);
-            } else {
-                // Apply the fallback directly
-                img.src = self.fallbackSrc;
+                    // Call recursively with updated indexes but wait for result
+                    self.setImageUrl(recursiveIndexes)
+                        .then(resolve)
+                        .catch(reject);
+                } else {
+                    // Apply the fallback directly
+                    img.src = self.fallbackSrc;
 
-                // Add a console log to verify
-                console.log("Applying fallback image:", self.fallbackSrc);
+                    // Add a console log to verify
+                    console.log("Applying fallback image:", self.fallbackSrc);
 
-                // Only remove the error handler AFTER the fallback has loaded
-                img.onload = function() {
-                    img.onerror = null;
-                    img.onload = null;
-                    resolve();
-                };
-                
-                // Ensure we resolve even if fallback fails
-                img.onerror = function() {
-                    console.error("Even fallback image failed to load");
-                    img.onerror = null;
-                    img.onload = null;
-                    resolve(); // Still resolve to prevent hanging
-                };
-            }
-        };
+                    // Only remove the error handler AFTER the fallback has loaded
+                    img.onload = function () {
+                        img.onerror = null;
+                        img.onload = null;
+                        resolve();
+                    };
 
-        // Success handler
-        img.onload = function() {
-            img.onerror = null;
-            img.onload = null;
-            resolve();
-        };
+                    // Ensure we resolve even if fallback fails
+                    img.onerror = function () {
+                        console.error("Even fallback image failed to load");
+                        img.onerror = null;
+                        img.onload = null;
+                        resolve(); // Still resolve to prevent hanging
+                    };
+                }
+            };
 
-        // Set the initial source
-        img.src = mainSrc;
-    });
-}
+            // Success handler
+            img.onload = function () {
+                img.onerror = null;
+                img.onload = null;
+                resolve();
+            };
 
-    
+            // Set the initial source
+            img.src = mainSrc;
+        });
+    }
+
+
     mergeStats(baseStats, staticModificators, addNewStats = false) {
         const result = { ...baseStats };
         if (addNewStats) {
@@ -296,25 +296,25 @@ export class Item extends Thing {
         } else {
             logger.debug('addNewStats', addNewStats);
             for (let key in staticModificators) {
-            logger.debug('key in staticModificators', key);
+                logger.debug('key in staticModificators', key);
                 if (result[key]) {
-            logger.debug('result[key]', result[key]);
+                    logger.debug('result[key]', result[key]);
                     result[key] += staticModificators[key];
                 }
             }
         }
-        
+
         this.updateTooltip();
-        
+
         return result;
     }
-    
+
 
     updateTooltip() {
         let tooltipContent = `<div class="tooltip-description">${this.description}</div>`;
-        
+
         tooltipContent += `<div>Tags</div>`;
-        
+
         if (this.type) {
             tooltipContent += `<div class="thing-tooltip-stats">
         <table class="type-table">
@@ -333,7 +333,7 @@ export class Item extends Thing {
         </table>
     </div>`;
         }
-        
+
         // Добавляем информацию о боевых статах
         let isAnyBaseStatModificated = false;
         const modificatedItemStats = () => {
@@ -359,12 +359,12 @@ export class Item extends Thing {
             </tbody>
         </table>
     </div>`;
-            return modificatedAffixesCount > 0 ? `<div>Final stats</div>${tooltipContentFragment}` : '';   
+                return modificatedAffixesCount > 0 ? `<div>Final stats</div>${tooltipContentFragment}` : '';
             }
-            
+
         }
         tooltipContent += modificatedItemStats();
-        
+
         if (isAnyBaseStatModificated) {
             tooltipContent += `<div>Native item stats before modification</div>`;
 
@@ -442,7 +442,7 @@ export class Item extends Thing {
         });
 
         return container;
-    } 
+    }
 }
 
 

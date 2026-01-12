@@ -11,49 +11,49 @@ function randomizeSkillStat(indexOfTier, startingValues, growthPower, valueFunct
     const minStandart = (index = 0) => startingValues[index] * (indexOfTier === 0 ? 0.1 : Math.pow(growthPower, Math.round(indexOfTier - 1)));
     //logger.warn(`minStandart`,minStandart);
     const standartFunc = (index = 0) => Math.max(1, Math.round(Math.random() * (maxStandart(index) - minStandart(index)) + minStandart(index)));
-    
+
     //logger.warn(`standartFunc`,standartFunc);
-    
+
     if (!valueFunctions || valueFunctions.length === 0) {
-		startingValues.forEach((value, i) => 
-        result[`value${i}`] = standartFunc(i));
+        startingValues.forEach((value, i) =>
+            result[`value${i}`] = standartFunc(i));
         //logger.warn(`result['value0']`,result['value0']);
-        
+
     } else {
-		valueFunctions.forEach((func, i) => {
+        valueFunctions.forEach((func, i) => {
             if (func === 'standart') {
                 result[`value${i}`] = standartFunc(i);
             } else if (typeof func === 'function') {
-                    //logger.warn('func',func);
-                    const max = func(i, 0);
-                    //logger.warn('max',max);
-                    const min = indexOfTier === 0 ?
-                    startingValues[i] * 0.1 : 
+                //logger.warn('func',func);
+                const max = func(i, 0);
+                //logger.warn('max',max);
+                const min = indexOfTier === 0 ?
+                    startingValues[i] * 0.1 :
                     func(i, -1);
-                    //logger.warn('min',min);
-                    result[`value${i}`] = Math.max(1, Math.round(Math.random() * (max - min) + min));
-                };
-            })
-        };
+                //logger.warn('min',min);
+                result[`value${i}`] = Math.max(1, Math.round(Math.random() * (max - min) + min));
+            };
+        })
+    };
 
     //logger.warn('result',result);
     const resultValues = [];
     for (let i = 0; i < Object.keys(result).length; i++) {
-    	resultValues.push(result[`value${i}`])
+        resultValues.push(result[`value${i}`])
     }
 
-        //logger.warn('resultValues',resultValues);
-       return resultValues; 
-        
+    //logger.warn('resultValues',resultValues);
+    return resultValues;
+
 }
 
 export const skillsPool = {
-   
+
     // COMBAT ENHANCEMENT SKILLS
     // Damage Modifiers
 
     'Physical Damage Amplifier': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -61,11 +61,11 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack'],
         skillType: 'damage_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Magical Damage Amplifier': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -73,11 +73,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseMagic'],
         skillType: 'damage_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Critical Strike Master': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -85,11 +85,11 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack', 'baseMagic'],
         skillType: 'damage_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Combo Striker': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -97,11 +97,11 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack', 'baseMagic'],
         skillType: 'damage_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Execution Specialist': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5, 20];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -110,12 +110,12 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack', 'baseMagic'],
         skillType: 'damage_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     // Defense Modifiers
     'Shield Efficiency': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -123,11 +123,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseShield'],
         skillType: 'defense_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Damage Reduction': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.4;
@@ -135,11 +135,11 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack', 'baseMagic'],
         skillType: 'defense_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Physical Resistance': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -147,11 +147,11 @@ export const skillsPool = {
         },
         associatedStats: ['basePhysAttack'],
         skillType: 'defense_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Magical Ward': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -159,12 +159,12 @@ export const skillsPool = {
         },
         associatedStats: ['baseMagic'],
         skillType: 'defense_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     // Health Management
     'Vitality': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -172,11 +172,11 @@ export const skillsPool = {
         },
         associatedStats: ['maxHP'],
         skillType: 'health_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Life Leech': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [3];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.775;
@@ -184,11 +184,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseHeal', 'basePhysAttack',],
         skillType: 'health_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Regeneration': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [1];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.3;
@@ -196,11 +196,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseHeal', 'maxHP'],
         skillType: 'health_modifier',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Last Stand': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2, 20];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -209,25 +209,25 @@ export const skillsPool = {
         },
         associatedStats: ['baseMagic', 'basePhysAttack', 'basePoison', 'baseBurn'],
         skillType: 'threshold_effect',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     // DEBUFF MANIPULATION SKILLS
     // Poison Specialization
-   /* 'Toxic Expert': {
-        calculateValues: function(tier) {
-            const trashTierMaxValues = [5];
-            const indexOfTier = categoryThingTier.indexOf(tier);
-            const growthPower = 2;
-            return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
-        },
-        associatedStats: ['basePoison'],
-        skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
-    },*/
+    /* 'Toxic Expert': {
+         calculateValues: function(tier) {
+             const trashTierMaxValues = [5];
+             const indexOfTier = categoryThingTier.indexOf(tier);
+             const growthPower = 2;
+             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
+         },
+         associatedStats: ['basePoison'],
+         skillType: 'debuff_enhancement',
+         possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+     },*/
 
     'Lingering Venom': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -235,7 +235,7 @@ export const skillsPool = {
         },
         associatedStats: ['basePoison'],
         skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     /*'Venom Contagion': {
@@ -276,7 +276,7 @@ export const skillsPool = {
     },*/
 
     'Lingering Embers': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -284,20 +284,20 @@ export const skillsPool = {
         },
         associatedStats: ['baseBurn'],
         skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
-/*
-    'Heat Transfer': {
-        calculateValues: function(tier) {
-            const trashTierMaxValues = [5];
-            const indexOfTier = categoryThingTier.indexOf(tier);
-            const growthPower = 2;
-            return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
-        },
-        associatedStats: ['baseBurn', 'baseShield'],
-        skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
-    },*/
+    /*
+        'Heat Transfer': {
+            calculateValues: function(tier) {
+                const trashTierMaxValues = [5];
+                const indexOfTier = categoryThingTier.indexOf(tier);
+                const growthPower = 2;
+                return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
+            },
+            associatedStats: ['baseBurn', 'baseShield'],
+            skillType: 'debuff_enhancement',
+            possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        },*/
 
     /*'Inferno': {
         calculateValues: function(tier) {
@@ -325,7 +325,7 @@ export const skillsPool = {
     },*/
 
     'Permafrost': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -333,11 +333,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseFreeze'],
         skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Brittle Ice': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.6;
@@ -345,7 +345,7 @@ export const skillsPool = {
         },
         associatedStats: ['baseFreeze', 'basePhysAttack'],
         skillType: 'debuff_enhancement',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     /*'Deep Freeze': {
@@ -362,45 +362,45 @@ export const skillsPool = {
 
     // Debuff Synergy
     'Elemental Harmony': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [3];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.5;
             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
         },
-        associatedStats: ['basePoison','baseBurn','baseFreeze'],
+        associatedStats: ['basePoison', 'baseBurn', 'baseFreeze'],
         skillType: 'synergy',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Debilitating Strike': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [12];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.68;
             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
         },
-        associatedStats:['basePhysAttack', 'basePoison', 'baseBurn', 'baseFreeze'],
+        associatedStats: ['basePhysAttack', 'basePoison', 'baseBurn', 'baseFreeze'],
         skillType: 'chance_effect',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Elemental Resonance': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.5;
             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
         },
-        associatedStats: ['basePoison','baseBurn','baseFreeze', 'basePhysAttack'],
+        associatedStats: ['basePoison', 'baseBurn', 'baseFreeze', 'basePhysAttack'],
         skillType: 'synergy',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     // UTILITY SKILLS
     // Timer Manipulation
     'Swift Casting': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.5;
@@ -408,11 +408,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseSpeed'],
         skillType: 'item_efficiency',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Time Warp': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [5];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.5;
@@ -420,7 +420,7 @@ export const skillsPool = {
         },
         associatedStats: ['baseSpeed'],
         skillType: 'chance_effect',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     /*
@@ -439,7 +439,7 @@ export const skillsPool = {
 
     // Resource Management
     'Shield Generator': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [1];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.25;
@@ -447,11 +447,11 @@ export const skillsPool = {
         },
         associatedStats: ['baseShield'],
         skillType: 'passive_effect',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Resourceful': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [12];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.68;
@@ -459,12 +459,12 @@ export const skillsPool = {
         },
         associatedStats: ['baseShield', 'maxHP'],
         skillType: 'battle_start',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     // Battle Control
     'Battle Extension': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.2;
@@ -472,11 +472,11 @@ export const skillsPool = {
         },
         associatedStats: ['fatique'],
         skillType: 'damage_reduction',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Endurance': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 2;
@@ -484,20 +484,20 @@ export const skillsPool = {
         },
         associatedStats: ['fatique'],
         skillType: 'damage_reduction',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 
     'Second Wind': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [12, 10];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.68;
-            const value2Function = function(index, offset) {return 100 - Math.max(12, trashTierMaxValues[1] * indexOfTier * 2)};
+            const value2Function = function (index, offset) { return 100 - Math.max(12, trashTierMaxValues[1] * indexOfTier * 2) };
             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower, ['standart', value2Function]);
         },
         associatedStats: ['baseHeal', 'maxHP'],
         skillType: 'threshold_effect',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
     // SYNERGY SKILLS
     // Item Synergy
@@ -639,15 +639,15 @@ export const skillsPool = {
     // Battle Rewards
 
     'Preparation': {
-        calculateValues: function(tier) {
+        calculateValues: function (tier) {
             const trashTierMaxValues = [2];
             const indexOfTier = categoryThingTier.indexOf(tier);
             const growthPower = 1.6;
             return randomizeSkillStat(indexOfTier, trashTierMaxValues, growthPower);
         },
-        associatedStats: ['basePoison','baseBurn','baseFreeze',],
+        associatedStats: ['basePoison', 'baseBurn', 'baseFreeze',],
         skillType: 'battle_start',
-        possibleTiers: ['trash','simple', 'good', 'epic', 'legendary']
+        possibleTiers: ['trash', 'simple', 'good', 'epic', 'legendary']
     },
 }
 
